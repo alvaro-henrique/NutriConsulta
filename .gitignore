@@ -1,0 +1,15 @@
+# Variáveis de ambiente locais
+.env
+.env.*
+
+# Dumps e backups do banco
+*.dump
+*.backup
+*.bak
+
+# Sistema operacional / editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

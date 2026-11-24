@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16
+    container_name: nutriconsulta-db
+    environment:
+      POSTGRES_DB: nutriconsulta
+      POSTGRES_USER: nutri
+      POSTGRES_PASSWORD: nutri
+    ports:
+      - "5432:5432"
+    volumes:
+      # Na primeira subida, o PostgreSQL executa os scripts desta pasta em ordem
+      - ./db/ddl.sql:/docker-entrypoint-initdb.d/01_ddl.sql:ro
+      - dados:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nutri -d nutriconsulta"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  adminer:
+    image: adminer
+    container_name: nutriconsulta-adminer
+    restart: unless-stopped
+    environment:
+      # Já deixa o servidor "db" preenchido na tela de login
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  dados:

@@ -1,0 +1,2 @@
+# Mantém finais de linha LF nos scripts (o Postgres no container é Linux)
+* text=auto eol=lf
